@@ -30,6 +30,10 @@ func convertRoute(unoAPI uno.API, engine gotenberg.PDFEngine) api.Route {
 				nativePDFformat    string
 				PDFformat          string
 				paperFormat        string
+				pageScale          int
+				scaleToPages       int
+				scaleToPagesX      int
+				ScaleToPagesY      int
 				merge              bool
 			)
 
@@ -42,6 +46,10 @@ func convertRoute(unoAPI uno.API, engine gotenberg.PDFEngine) api.Route {
 				String("pdfFormat", &PDFformat, "").
 				String("paperFormat", &paperFormat, "").
 				Bool("merge", &merge, false).
+				Int("pageScale", &pageScale, 0).
+				Int("scaleToPages", &scaleToPages, 0).
+				Int("scaleToPagesX", &scaleToPagesX, 0).
+				Int("ScaleToPagesY", &ScaleToPagesY, 0).
 				Validate()
 
 			if err != nil {
@@ -85,9 +93,13 @@ func convertRoute(unoAPI uno.API, engine gotenberg.PDFEngine) api.Route {
 				outputPaths[i] = ctx.GeneratePath(".pdf")
 
 				options := uno.Options{
-					Landscape:   landscape,
-					PageRanges:  nativePageRanges,
-					PaperFormat: paperFormat,
+					Landscape:     landscape,
+					PageRanges:    nativePageRanges,
+					PaperFormat:   paperFormat,
+					PageScale:     pageScale,
+					ScaleToPages:  scaleToPages,
+					ScaleToPagesX: scaleToPagesX,
+					ScaleToPagesY: ScaleToPagesY,
 				}
 
 				err = unoAPI.PDF(ctx, ctx.Log(), inputPath, outputPaths[i], options)
