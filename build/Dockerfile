@@ -31,10 +31,10 @@ FROM debian:11-slim
 ARG GOTENBERG_VERSION
 
 LABEL author="Julien Neuhart" \
-      description="A Docker-powered stateless API for PDF files." \
-      github="https://github.com/gotenberg/gotenberg" \
-      version="$GOTENBERG_VERSION" \
-      website="https://gotenberg.dev"
+    description="A Docker-powered stateless API for PDF files." \
+    github="https://github.com/gotenberg/gotenberg" \
+    version="$GOTENBERG_VERSION" \
+    website="https://gotenberg.dev"
 
 # Improve fonts subpixel hinting and smoothing.
 # Credits:
@@ -123,7 +123,7 @@ RUN \
     apt-get update -qq &&\
     DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends -t sid libreoffice &&\
     # Download unoconv (Python script).
-    curl -Ls https://raw.githubusercontent.com/dagwieers/unoconv/master/unoconv -o /usr/bin/unoconv &&\
+    curl -Ls https://raw.githubusercontent.com/ppolxda/unoconv/master/unoconv -o /usr/bin/unoconv &&\
     chmod +x /usr/bin/unoconv &&\
     # unoconv will look for the Python binary, which has to be at version 3.
     ln -s /usr/bin/python3 /usr/bin/python &&\
