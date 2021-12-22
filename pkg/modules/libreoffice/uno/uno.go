@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"regexp"
 	"sync"
 	"time"
 
@@ -56,6 +57,12 @@ type Options struct {
 	// PDF/A-3b.
 	// Optional.
 	PDFformat string
+
+	// PaperFormat allows to convert the resulting PDF paper size.
+	// In a module,  specify printer paper format
+	// interface.
+	// Optional.
+	PaperFormat string
 }
 
 // API is an abstraction on top of uno.
@@ -362,6 +369,15 @@ func (mod UNO) PDF(ctx context.Context, logger *zap.Logger, inputPath, outputPat
 		args = append(args, "--export", "SelectPdfVersion=3")
 	default:
 		return ErrInvalidPDFformat
+	}
+
+	if options.PaperFormat != "" {
+		var re = regexp.MustCompile(`^[0-9]+x[0-9]+$`)
+		if re.MatchString(options.PaperFormat) {
+			args = append(args, "--printer", fmt.Sprintf("PaperSize=%s", options.PaperFormat))
+		} else {
+			args = append(args, "--printer", fmt.Sprintf("PaperFormat=%s", options.PaperFormat))
+		}
 	}
 
 	args = append(args, "--output", outputPath, inputPath)
