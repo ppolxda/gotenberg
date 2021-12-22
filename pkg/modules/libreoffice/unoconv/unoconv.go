@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"net"
 	"os"
+	"regexp"
 	"strconv"
 	"strings"
 	"sync"
@@ -43,6 +44,12 @@ type Options struct {
 	// interface.
 	// Optional.
 	PDFArchive bool
+
+	// PaperFormat allows to convert the resulting PDF paper size.
+	// In a module,  specify printer paper format
+	// interface.
+	// Optional.
+	PaperFormat string
 }
 
 // API is an abstraction on top of unoconv.
@@ -174,6 +181,15 @@ func (mod Unoconv) PDF(ctx context.Context, logger *zap.Logger, inputPath, outpu
 
 	if options.PDFArchive {
 		args = append(args, "--export", "SelectPdfVersion=1")
+	}
+
+	if options.PaperFormat != "" {
+		var re = regexp.MustCompile(`^[0-9]+x[0-9]+$`)
+		if (re.MatchString(options.PaperFormat)) {
+			args = append(args, "--printer", fmt.Sprintf("PaperSize=%s", options.PaperFormat))
+		} else {
+			args = append(args, "--printer", fmt.Sprintf("PaperFormat=%s", options.PaperFormat))
+		}
 	}
 
 	args = append(args, "--output", outputPath, inputPath)
