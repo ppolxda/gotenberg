@@ -301,12 +301,24 @@ func (p *libreOfficeProcess) pdf(ctx context.Context, logger *zap.Logger, inputP
 	}
 
 	if options.PaperFormat != "" {
-		var re = regexp.MustCompile(`^[0-9]+x[0-9]+$`)
+		re := regexp.MustCompile(`^[0-9]+x[0-9]+$`)
 		if re.MatchString(options.PaperFormat) {
 			args = append(args, "--printer", fmt.Sprintf("PaperSize=%s", options.PaperFormat))
 		} else {
 			args = append(args, "--printer", fmt.Sprintf("PaperFormat=%s", options.PaperFormat))
 		}
+	}
+
+	if options.PageScale > 0 && options.PageScale <= 200 {
+		args = append(args, "--pagestype", fmt.Sprintf("PageScale=%d", options.PageScale))
+	}
+
+	if options.ScaleToPages > 0 {
+		args = append(args, "--pagestype", fmt.Sprintf("ScaleToPages=%d", options.ScaleToPages))
+	}
+
+	if options.ScaleToPagesX > 0 {
+		args = append(args, "--pagestype", fmt.Sprintf("ScaleToPagesX=%d", options.ScaleToPagesX))
 	}
 
 	inputPath, err := nonBasicLatinCharactersGuard(logger, inputPath)

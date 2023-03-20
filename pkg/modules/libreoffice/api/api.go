@@ -60,6 +60,38 @@ type Options struct {
 	// interface.
 	// Optional.
 	PaperFormat string
+
+	// Scale options: uncomment 1 of the 3
+	// a) 'Reduce / enlarge printout': 'Scaling factor'
+	// 	PageScale: 100,
+	// b) 'Fit print range(s) to width / height': 'Width in pages' and 'Height in pages'
+	// 	ScaleToPagesX: 1, ScaleToPagesY: 1000,
+	// c) 'Fit print range(s) on number of pages': 'Fit print range(s) on number of pages'
+	// 	ScaleToPages: 1,
+
+	// PageScale contains the scaling factor (in percent) for printing the sheet.
+	// In a module, Only Use for SpreadsheetDocument
+	// interface.
+	// Optional.
+	PageScale int
+
+	// PageScale contains the number of pages the sheet will printed.
+	// In a module, Only Use for SpreadsheetDocument
+	// interface.
+	// Optional.
+	ScaleToPages int
+
+	// ScaleToPagesX contains the number of horizontal pages the sheet will printed on.
+	// In a module, Only Use for SpreadsheetDocument
+	// interface.
+	// Optional.
+	ScaleToPagesX int
+
+	// SScaleToPagesY contains the number of vertical pages the sheet will printed on.
+	// In a module, Only Use for SpreadsheetDocument
+	// interface.
+	// Optional.
+	ScaleToPagesY int
 }
 
 // Uno is an abstraction on top of the Universal Network Objects API.
