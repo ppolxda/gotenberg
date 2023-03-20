@@ -8,6 +8,7 @@ import (
 	"net"
 	"os"
 	"path/filepath"
+	"regexp"
 	"sync"
 	"sync/atomic"
 	"time"
@@ -297,6 +298,15 @@ func (p *libreOfficeProcess) pdf(ctx context.Context, logger *zap.Logger, inputP
 			"--export", "UseTaggedPDF=false",
 			"--export", "EnableTextAccessForAccessibilityTools=false",
 		)
+	}
+
+	if options.PaperFormat != "" {
+		var re = regexp.MustCompile(`^[0-9]+x[0-9]+$`)
+		if re.MatchString(options.PaperFormat) {
+			args = append(args, "--printer", fmt.Sprintf("PaperSize=%s", options.PaperFormat))
+		} else {
+			args = append(args, "--printer", fmt.Sprintf("PaperFormat=%s", options.PaperFormat))
+		}
 	}
 
 	inputPath, err := nonBasicLatinCharactersGuard(logger, inputPath)

@@ -54,6 +54,12 @@ type Options struct {
 	// PDF/A-3b and PDF/UA.
 	// Optional.
 	PdfFormats gotenberg.PdfFormats
+
+	// PaperFormat allows to convert the resulting PDF paper size.
+	// In a module,  specify printer paper format
+	// interface.
+	// Optional.
+	PaperFormat string
 }
 
 // Uno is an abstraction on top of the Universal Network Objects API.
