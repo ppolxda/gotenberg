@@ -153,7 +153,7 @@ RUN \
     echo "deb http://deb.debian.org/debian bookworm-backports main" >> /etc/apt/sources.list &&\
     apt-get update -qq &&\
     DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends -t bookworm-backports libreoffice &&\
-    curl -Ls https://raw.githubusercontent.com/gotenberg/unoconverter/v0.0.1/unoconv -o /usr/bin/unoconverter &&\
+    curl -Ls https://raw.githubusercontent.com/ppolxda/unoconv/master/unoconv -o /usr/bin/unoconverter &&\
     chmod +x /usr/bin/unoconverter &&\
     # unoconverter will look for the Python binary, which has to be at version 3.
     ln -s /usr/bin/python3 /usr/bin/python &&\

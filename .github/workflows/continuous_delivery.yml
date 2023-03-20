@@ -22,5 +22,4 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Build and push Docker image for release
         run: |
-          make release GOTENBERG_VERSION=${{ github.event.release.tag_name }}
-          make release GOTENBERG_VERSION=${{ github.event.release.tag_name }} DOCKER_REPOSITORY=thecodingmachine
+          make release GOTENBERG_VERSION=${{ github.event.release.tag_name }} DOCKER_REPOSITORY=ppolxda
