@@ -57,7 +57,14 @@ RUN \
     # Install system dependencies required for the next instructions or debugging.
     # Note: tini is a helper for reaping zombie processes.
     apt-get update -qq &&\
-    DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends curl gnupg tini python3 default-jre-headless &&\
+    DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends curl gnupg tini python3 default-jre-headless unzip &&\
+    # Install font from jiaxiaochu
+    # https://github.com/jiaxiaochu/font
+    curl -Ls "https://codeload.github.com/jiaxiaochu/font/zip/refs/heads/master" -o /var/tmp/font-master.zip &&\
+    mkdir /var/tmp/font-master &&\
+    unzip /var/tmp/font-master.zip -d /var/tmp &&\
+    find /var/tmp/font-master -regextype posix-egrep -iregex '.*\.tt[cf]$' -exec cp {} /usr/local/share/fonts  \; &&\
+    # /var/tmp/font-master/install.sh /var/tmp/font-master &&\
     # Cleanup.
     # Note: the Debian image does automatically a clean after each install thanks to a hook.
     # Therefore, there is no need for apt-get clean.
